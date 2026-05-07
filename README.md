@@ -1,2 +1,3 @@
-# nix.template
+# Nix Flake Templates
+
 Nix Flakes Template
