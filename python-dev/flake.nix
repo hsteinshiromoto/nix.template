@@ -14,6 +14,8 @@
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
             llvmPackages.openmp
+            nushell
+            atuin
           ];
           shellHook = ''
             if [ -f .env ]; then
@@ -23,6 +25,9 @@
               set +a
               echo "Done"
             fi
+
+            export ATUIN_SESSION=$(atuin uuid)
+            exec nu
           '';
         };
       }
