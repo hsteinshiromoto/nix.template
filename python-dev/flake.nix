@@ -10,25 +10,49 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
-      in {
-        devShells.default = pkgs.mkShell {
-          buildInputs = with pkgs; [
-            llvmPackages.openmp
-            nushell
-            atuin
-          ];
-          shellHook = ''
-            if [ -f .env ]; then
-              echo "Loading environment variables from .env ..."
-              set -a
-              source .env
-              set +a
-              echo "Done"
-            fi
 
-            export ATUIN_SESSION=$(atuin uuid)
-            exec nu
-          '';
+        commonInputs = with pkgs; [
+          llvmPackages.openmp
+          atuin
+        ];
+
+        mkEnvHook = ''
+          if [ -f .env ]; then
+            echo "Loading environment variables from .env ..."
+            set -a
+            source .env
+            set +a
+            echo "Done"
+          fi
+        '';
+      in {
+        devShells = {
+          default = pkgs.mkShell {
+            buildInputs = commonInputs ++ [ pkgs.nushell ];
+            shellHook = ''
+              ${mkEnvHook}
+              export ATUIN_SESSION=$(atuin uuid)
+              exec nu
+            '';
+          };
+
+          zsh = pkgs.mkShell {
+            buildInputs = commonInputs;
+            shellHook = ''
+              ${mkEnvHook}
+              export ATUIN_SESSION=$(atuin uuid)
+              eval "$(atuin init zsh)"
+              exec zsh
+            '';
+          };
+
+          bash = pkgs.mkShell {
+            buildInputs = commonInputs;
+            shellHook = ''
+              ${mkEnvHook}
+              exec bash
+            '';
+          };
         };
       }
     );
