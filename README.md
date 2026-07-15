@@ -16,7 +16,7 @@ Python development environment with OpenMP support.
 **Usage:**
 ```bash
 # Initialize a new project
-nix flake init -t .#python-dev
+nix flake init -t github:hsteinshiromoto/nix.template#python-dev
 
 # Enter the devshell
 nix develop           # nushell (default)
