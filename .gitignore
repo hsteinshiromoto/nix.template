@@ -2,6 +2,10 @@
 # Created by https://www.toptal.com/developers/gitignore/api/tex,latex,linux,macos,python,dbeaver,pycharm,windows,jupyternotebooks,visualstudiocode,obsidian
 # Edit at https://www.toptal.com/developers/gitignore?templates=tex,latex,linux,macos,python,dbeaver,pycharm,windows,jupyternotebooks,visualstudiocode,obsidian
 
+## Nix ##
+
+flake.lock
+
 ## Syncthing ##
 
 .stfolder/
